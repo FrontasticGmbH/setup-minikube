@@ -126,3 +126,24 @@ const getInput = (name: string, defaultValue: string): string => {
 }
 
 const useCache = (): boolean => getInputAction('cache').toLowerCase() === 'true'
+
+// Function to save minikube caches when called from a post action
+// This ensures all Docker images added during workflow steps are saved
+export const savePostActionCaches = async (): Promise<void> => {
+  if (!useCache()) {
+    return
+  }
+  info('Saving Minikube caches from post action')
+  
+  // Create a cache hits object with all false
+  // to force saving of all caches regardless of previous state
+  const cacheHits: CacheHits = {
+    iso: false,
+    kic: false,
+    preload: false,
+    images: false,
+  }
+  
+  await saveCaches(cacheHits)
+  info('Minikube caches saved from post action')
+}
