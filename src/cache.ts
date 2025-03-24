@@ -134,16 +134,16 @@ export const savePostActionCaches = async (): Promise<void> => {
     return
   }
   info('Saving Minikube caches from post action')
-  
-  // Create a cache hits object with all false
-  // to force saving of all caches regardless of previous state
+
+  // Create a cache hits object with images set to false
+  // other things were already saved directly after minikube start
   const cacheHits: CacheHits = {
-    iso: false,
-    kic: false,
-    preload: false,
+    iso: true,
+    kic: true,
+    preload: true,
     images: false,
   }
-  
+
   await saveCaches(cacheHits)
   info('Minikube caches saved from post action')
 }
