@@ -20,10 +20,16 @@ type CacheHits = {
   iso: boolean
   kic: boolean
   preload: boolean
+  images: boolean
 }
 
 export const restoreCaches = async (): Promise<CacheHits> => {
-  const cacheHits: CacheHits = {iso: true, kic: true, preload: true}
+  const cacheHits: CacheHits = {
+    iso: true,
+    kic: true,
+    preload: true,
+    images: true,
+  }
   if (!useCache()) {
     return cacheHits
   }
@@ -31,9 +37,11 @@ export const restoreCaches = async (): Promise<CacheHits> => {
   const isoCacheKey = restoreCache('iso', minikubeVersion)
   const kicCacheKey = restoreCache('kic', minikubeVersion)
   const preloadCacheKey = restoreCache('preloaded-tarball', minikubeVersion)
+  const imagesCacheKey = restoreCache('images', minikubeVersion)
   cacheHits.iso = typeof (await isoCacheKey) !== 'undefined'
   cacheHits.kic = typeof (await kicCacheKey) !== 'undefined'
   cacheHits.preload = typeof (await preloadCacheKey) !== 'undefined'
+  cacheHits.images = typeof (await imagesCacheKey) !== 'undefined'
   return cacheHits
 }
 
@@ -63,6 +71,7 @@ export const saveCaches = async (cacheHits: CacheHits): Promise<void> => {
     saveCache('iso', cacheHits.iso, minikubeVersion),
     saveCache('kic', cacheHits.kic, minikubeVersion),
     saveCache('preloaded-tarball', cacheHits.preload, minikubeVersion),
+    saveCache('images', cacheHits.images, minikubeVersion),
   ])
 }
 

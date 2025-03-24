@@ -31,7 +31,7 @@ process.on('uncaughtException', (e) => {
     (0, core_1.info)(`[warning]${e.message}`);
 });
 const restoreCaches = () => __awaiter(void 0, void 0, void 0, function* () {
-    const cacheHits = { iso: true, kic: true, preload: true };
+    const cacheHits = { iso: true, kic: true, preload: true, images: true };
     if (!useCache()) {
         return cacheHits;
     }
@@ -39,9 +39,11 @@ const restoreCaches = () => __awaiter(void 0, void 0, void 0, function* () {
     const isoCacheKey = restoreCache('iso', minikubeVersion);
     const kicCacheKey = restoreCache('kic', minikubeVersion);
     const preloadCacheKey = restoreCache('preloaded-tarball', minikubeVersion);
+    const imagesCacheKey = restoreCache('images', minikubeVersion);
     cacheHits.iso = typeof (yield isoCacheKey) !== 'undefined';
     cacheHits.kic = typeof (yield kicCacheKey) !== 'undefined';
     cacheHits.preload = typeof (yield preloadCacheKey) !== 'undefined';
+    cacheHits.images = typeof (yield imagesCacheKey) !== 'undefined';
     return cacheHits;
 });
 exports.restoreCaches = restoreCaches;
@@ -70,6 +72,7 @@ const saveCaches = (cacheHits) => __awaiter(void 0, void 0, void 0, function* ()
         saveCache('iso', cacheHits.iso, minikubeVersion),
         saveCache('kic', cacheHits.kic, minikubeVersion),
         saveCache('preloaded-tarball', cacheHits.preload, minikubeVersion),
+        saveCache('images', cacheHits.images, minikubeVersion),
     ]);
 });
 exports.saveCaches = saveCaches;
