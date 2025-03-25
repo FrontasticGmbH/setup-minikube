@@ -88405,6 +88405,7 @@ const saveCache = (name, cacheHit, minikubeVersion) => __awaiter(void 0, void 0,
     }
     try {
         yield (0, cache_1.saveCache)(cachePaths, getCacheKey(name, minikubeVersion));
+        (0, core_1.info)('saved cache ' + name);
     }
     catch (error) {
         console.log(name + error);
