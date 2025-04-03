@@ -98,8 +98,9 @@ const saveCache = async (
     return
   }
   try {
-    await saveCacheAction(cachePaths, getCacheKey(name, minikubeVersion))
-    info('saved cache ' + name)
+    let key = getCacheKey(name, minikubeVersion)
+    await saveCacheAction(cachePaths, key)
+    info('Saved cache ' + name + ' under key ' + key)
   } catch (error) {
     console.log(name + error)
   }
